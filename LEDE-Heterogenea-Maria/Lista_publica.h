@@ -23,4 +23,6 @@ void inserir_pos(pLista lista, int pos, void* elemento, int tamanho_elemento, in
 void remover_inicio(pLista lista, int* resultado);
 void remover_fim(pLista lista, int* resultado);
 void remover_pos(pLista lista, int pos, int* resultado);
+int envia_contador();
+
 #endif
