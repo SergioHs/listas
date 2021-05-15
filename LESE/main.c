@@ -6,16 +6,17 @@ int main(int argc, char **argv)
 {
     int Resultado;
     int i = 0;
-    
+
 
     //Criando lista de Palavras
-    lista_t *p = NULL;
-    p = CriarLista(sizeof(char) * 100, 100, &Resultado);
+    //lista_t *p = NULL;
+    //p = CriarLista(sizeof(char) * 100, 100, &Resultado);
 
     //Criando lista de numeros (inteiros)
     lista_t *f = NULL;
-    f = CriarLista(sizeof(int), 100, &Resultado);
+    f = CriarLista(sizeof(int), 10000, &Resultado);
 
+    /*
     //Definindo as palavras da lista
     char* um = "um";
     char* dois = "dois";
@@ -52,7 +53,7 @@ int main(int argc, char **argv)
     InserirPos(p, seis, 3, &Resultado);
     saida = BuscarPos(p, 3, &Resultado);
     printf("\nElemento na posicao 3: %s\n", saida);
-    
+
     saida = BuscarInicio(p, &Resultado);
     printf("\nBuscar no inicio: %s\n", saida);
 
@@ -72,14 +73,15 @@ int main(int argc, char **argv)
 
     saida = RemoverPos(p, 0, &Resultado);
     printf("Elemento removido na posicao 1 da lista: %s\n",saida);
-
+*/
 //--------------------------------------------------------------------------------------------------------------
 
     printf("\n ############# Execucao da Lista de Numeros (inteiros) #############\n\n");
 
-    printf("\n## ADICIONA NO INICIO, REMOVE DO INCIO (retorno sera de tras para frente) ##\n");
-   
+    //printf("\n## ADICIONA NO INICIO, REMOVE DO INCIO (retorno sera de tras para frente) ##\n");
+
     // Adiciona elementos
+/*
     for (i=0; i<10; i++){
         int *k;
         k = (int*)malloc(sizeof(int));
@@ -88,7 +90,24 @@ int main(int argc, char **argv)
         printf("Elemento enfileirado: %d\n",(int)BuscarInicio(f, &Resultado));
     }
     printf("\n");
-   
+*/
+
+
+    // Análise de Saltos
+    // Grupo E
+
+    for (i=0;i<10000;i++){
+        InserirInicio(f, &i, &Resultado);
+    }
+
+    printf("\nInserir - Quantidade de Saltos: %d",getInsSaltos());
+
+    for (i=0;i<3000;i++){
+        RemoverInicio(f, &Resultado);
+    }
+
+    printf("\nRemover - Quantidade de Saltos: %d",getRemSaltos());
+ /*
     // Retorna elementos
     for (i = 0; i < 15; i++){
         int *k;
@@ -103,7 +122,7 @@ int main(int argc, char **argv)
     }
 
     printf("\n## ADICIONA NO FIM, REMOVE DO FIM (retorno sera de tras para frente) ##\n\n");
-    
+
     // Adiciona elementos
     for (i=0; i<10; i++){
         int *k;
@@ -113,13 +132,13 @@ int main(int argc, char **argv)
         printf("Elemento inserido no fim lista: %d\n",(int)BuscarFim(f, &Resultado));
     }
      printf("\n");
-    
+
     // Retorna elementos
     for (i = 0; i < 15; i++){
         int *k;
         void* dado;
         dado = BuscarFim(f, &Resultado);
-        if (Resultado == 1){ 
+        if (Resultado == 1){
             printf("Elemento no fim da lista: %d\n",(int)dado);
             dado = RemoverFim(f, &Resultado);
             printf("Elemento removido do fim da lista: %d\n",(int)dado);
@@ -132,7 +151,7 @@ int main(int argc, char **argv)
     f = ReiniciarLista(f, &Resultado);
 
     printf("\n## ADICIONA NO FIM, REMOVE DO INICIO (retorno sera sequencial) ##\n\n");
-    
+
     // Adiciona elementos
     for (i=0; i<10; i++){
         int *k;
@@ -142,13 +161,13 @@ int main(int argc, char **argv)
         printf("Elemento inserido no fim da lista: %d\n",(int)BuscarFim(f, &Resultado));
     }
     printf("\n");
-    
+
     // Retorna elementos
     for (i = 0; i < 15; i++){
         int *k;
         void* dado;
         dado = BuscarInicio(f, &Resultado);
-        if (Resultado == 1){ 
+        if (Resultado == 1){
             printf("Elemento no inicio da lista: %d\n",(int)dado);
             dado = RemoverInicio(f, &Resultado);
             printf("Elemento removido do inicio lista: %d\n",(int)dado);
@@ -156,7 +175,7 @@ int main(int argc, char **argv)
           printf("\n");
     }
     printf("\n## RETORNA POSICAO ##\n\n");
-   
+
     // Adiciona elementos
     for (i=0; i<10; i++){
         int *k;
@@ -166,7 +185,7 @@ int main(int argc, char **argv)
         InserirFim(f, *k, &Resultado);  //Jeito correto de enviar e receber os dados
     }
      printf("\n");
-
+/*
     // Retorna elementos
     int posicao = 3;
     int *k;
@@ -195,9 +214,9 @@ int main(int argc, char **argv)
     printf("Elemento na posicao %d: %d\n",posicao, (int)BuscarPos(f, posicao, &Resultado));
     printf("Elemento na posicao %d: %d\n",posicao+1, (int)BuscarPos(f, posicao+1, &Resultado));
     printf("Elemento na posicao %d: %d\n",posicao+2, (int)BuscarPos(f, posicao+2, &Resultado));
-
+*/
 
     printf("\n## Destruindo as listas ##\n\n");
-    DestruirLista(p, &Resultado); //Lista de palavras
+    //DestruirLista(p, &Resultado); //Lista de palavras
     DestruirLista(f, &Resultado); //Lista de numeros inteiros
 }

@@ -4,12 +4,27 @@
 
 #include "ldde_privada.h"
 
+// AnÃ¡lise de Saltos
+// Grupo E
+int countInsSaltos = 0;
+
+int getInsSaltos(){
+    return countInsSaltos;
+}
+
+int countRemSaltos = 0;
+
+int getRemSaltos(){
+    return countRemSaltos;
+}
+
+
 int CriarLista(pldde *lista, int tamanho_dados){
 
-    /* Aloca o espaço e verifica o sucesso */
+    /* Aloca o espaÃ§o e verifica o sucesso */
     pldde tmp_lista = (pldde) malloc(sizeof(ldde));
     if(tmp_lista == NULL){
-        printf("Erro: Alocação de memória para criação da lista falhou!\n");
+        printf("Erro: AlocaÃ§Ã£o de memÃ³ria para criaÃ§Ã£o da lista falhou!\n");
         return ERRO;
     }
 
@@ -24,14 +39,14 @@ int CriarLista(pldde *lista, int tamanho_dados){
 }
 
 int ReiniciarLista(pldde lista){
-    /* Caso a lista não exista, informa o erro */
+    /* Caso a lista nÃ£o exista, informa o erro */
     if(lista == NULL){
-        printf("Erro: Ponteiro para lista nulo, lista já destruída ou não iniciada!\n");
+        printf("Erro: Ponteiro para lista nulo, lista jÃ¡ destruÃ­da ou nÃ£o iniciada!\n");
         return ERRO;
     }
-    
-    /* Percorre a lista removendo os nós */
-    noLdde * no = NULL; 
+
+    /* Percorre a lista removendo os nÃ³s */
+    noLdde * no = NULL;
     while(lista->inicio != NULL){
         no = lista->inicio;
         lista->inicio = lista->inicio->prox;
@@ -42,22 +57,22 @@ int ReiniciarLista(pldde lista){
 }
 
 int DestruirLista(pldde *lista){
-    /* Chama a Reinicialização da lista para limpar todos os nós */
+    /* Chama a ReinicializaÃ§Ã£o da lista para limpar todos os nÃ³s */
     if(ReiniciarLista(*lista) == ERRO)
         return ERRO;
 
-    /* Destói o descritor da lista */
+    /* DestÃ³i o descritor da lista */
     free(*lista);
     *lista = NULL;
-    return SUCESSO; 
+    return SUCESSO;
 }
 
-/* Função wrapper para inserção no início utilizando a InserirPos */
+/* FunÃ§Ã£o wrapper para inserÃ§Ã£o no inÃ­cio utilizando a InserirPos */
 int InserirInicio(pldde lista, void * elemento){
     return InserirPos(lista, elemento, 0);
 }
 
-/* Função wrapper para inserção no final utilizando a InserirPos */
+/* FunÃ§Ã£o wrapper para inserÃ§Ã£o no final utilizando a InserirPos */
 int InserirFim(pldde lista, void * elemento){
     return InserirPos(lista, elemento, lista->quantidade_nos);
 }
@@ -65,73 +80,92 @@ int InserirFim(pldde lista, void * elemento){
 int InserirPos(pldde lista, void * elemento, int posicao){
     int i = 0;
     noLdde * atual = NULL;
-    
-    /* Se a posição informada for maior que a quantidade de nós, retorna erro */
+
+    /* Se a posiÃ§Ã£o informada for maior que a quantidade de nÃ³s, retorna erro */
     if(posicao > lista->quantidade_nos){
-        printf("Erro: Posição inexistente!\n");
+        printf("Erro: PosiÃ§Ã£o inexistente!\n");
         return ERRO;
     }
 
-    /* Aloca o espaço para o novo nó e verifica sucesso */
+    /* Aloca o espaÃ§o para o novo nÃ³ e verifica sucesso */
     noLdde * novo_no = (noLdde *) malloc(sizeof(noLdde));
     if(novo_no == NULL){
-        printf("Erro: Alocação de memória para criação de nó falhou!\n");
+        printf("Erro: AlocaÃ§Ã£o de memÃ³ria para criaÃ§Ã£o de nÃ³ falhou!\n");
         return ERRO;
     }
 
-    /* Inicializa os ponteiros do novo nó */
+    /* Inicializa os ponteiros do novo nÃ³ */
     novo_no->prox = novo_no->ant = NULL;
 
-    /* Aloca o espaço para os dados e verifica sucesso */ 
+    countInsSaltos++;
+    countInsSaltos++;
+
+    /* Aloca o espaÃ§o para os dados e verifica sucesso */
     novo_no->dados = (void *) malloc(lista->tamanho_dados);
     if(novo_no->dados == NULL){
-        printf("Erro: Alocação de memória para o dado falhou!\n");
+        printf("Erro: AlocaÃ§Ã£o de memÃ³ria para o dado falhou!\n");
         return ERRO;
     }
 
-    /* Copia o novo elemento para o nó */
+    /* Copia o novo elemento para o nÃ³ */
     memcpy(novo_no->dados, elemento, lista->tamanho_dados);
 
-    /* Percorre a lista para encontrar o elemento na posição especificada */
-    atual = lista->inicio; 
+    /* Percorre a lista para encontrar o elemento na posiÃ§Ã£o especificada */
+    atual = lista->inicio;
+    countInsSaltos++;
+
     for(i = 0; i < posicao; i++)
         atual = atual->prox;
+        countInsSaltos++;
 
-    /* Caso o valor do nó seja nulo, então a inserção deve ser no final ou não há elementos na lista */
+    /* Caso o valor do nÃ³ seja nulo, entÃ£o a inserÃ§Ã£o deve ser no final ou nÃ£o hÃ¡ elementos na lista */
     if(atual == NULL){
-        /* Atualiza os ponteiros de acordo com o caso específico */
+        /* Atualiza os ponteiros de acordo com o caso especÃ­fico */
         if(posicao == 0){
             lista->inicio = lista->fim = novo_no;
+            countInsSaltos++;
+            countInsSaltos++;
         }else{
             novo_no->ant = lista->fim;
             lista->fim->prox = novo_no;
             lista->fim = novo_no;
+            countInsSaltos++;
+            countInsSaltos++;
+            countInsSaltos++;
+            countInsSaltos++;
+            countInsSaltos++;
         }
         lista->quantidade_nos++;
+
         return SUCESSO;
     }
 
-    /* Atualiza os ponteiros caso a inserção seja de fato no meio da lista */
+    /* Atualiza os ponteiros caso a inserÃ§Ã£o seja de fato no meio da lista */
     novo_no->prox = atual;
     novo_no->ant = atual->ant;
     atual->ant = novo_no;
+    countInsSaltos++;
+    countInsSaltos++;
+    countInsSaltos++;
+    countInsSaltos++;
 
-    /* Se o elemento foi inserido no início (para o caso em que já haviam elementos na lista), o */
+    /* Se o elemento foi inserido no inÃ­cio (para o caso em que jÃ¡ haviam elementos na lista), o */
     /* ponteiro da lista deve ser atualizado */
-    if(posicao == 0)
+    if(posicao == 0){
         lista->inicio = novo_no;
-
+        countInsSaltos++;
+    }
     lista->quantidade_nos++;
 
-    return SUCESSO; 
+    return SUCESSO;
 }
 
-/* Função wrapper para buscar no início utilizando a BuscarPos */
+/* FunÃ§Ã£o wrapper para buscar no inÃ­cio utilizando a BuscarPos */
 void * BuscarInicio(pldde lista){
     return lista->inicio->dados;
 }
 
-/* Função wrapper para buscar no fim utilizando a BuscarPos */
+/* FunÃ§Ã£o wrapper para buscar no fim utilizando a BuscarPos */
 void * BuscarFim(pldde lista){
     return lista->fim->dados;
 }
@@ -140,27 +174,27 @@ void * BuscarPos(pldde lista, int posicao){
     int i = 0;
     noLdde * atual = NULL;
 
-    /* Percorre a lista buscando pelo nó na posição informada */
-    atual = lista->inicio; 
+    /* Percorre a lista buscando pelo nÃ³ na posiÃ§Ã£o informada */
+    atual = lista->inicio;
     for(i = 0; i < posicao && atual->prox != NULL; i++){
         atual = atual->prox;
     }
 
-    /* Caso o nó seja nulo, então a posição informada não existe */
+    /* Caso o nÃ³ seja nulo, entÃ£o a posiÃ§Ã£o informada nÃ£o existe */
     if(atual == NULL){
-        printf("Erro: Posição inexistente!\n");
+        printf("Erro: PosiÃ§Ã£o inexistente!\n");
         return NULL;
     }
 
     return atual->dados;
 }
 
-/* Função wrapper para remover do início utilizando a RemoverPos */
+/* FunÃ§Ã£o wrapper para remover do inÃ­cio utilizando a RemoverPos */
 int RemoverInicio(pldde lista){
     return RemoverPos(lista, 0);
 }
 
-/* Função wrapper para remover do fim utilizando a RemoverPos */
+/* FunÃ§Ã£o wrapper para remover do fim utilizando a RemoverPos */
 int RemoverFim(pldde lista){
     return RemoverPos(lista, lista->quantidade_nos - 1);
 }
@@ -169,33 +203,50 @@ int RemoverPos(pldde lista, int posicao){
     int i = 0;
     noLdde * atual = NULL;
 
-    /* Caso a posição informada seja maior ou igual à quantidade de nós, retorna erro */
+    /* Caso a posiÃ§Ã£o informada seja maior ou igual Ã  quantidade de nÃ³s, retorna erro */
     if(posicao >= lista->quantidade_nos){
-        printf("Erro: Posição inexistente!\n");
+        printf("Erro: PosiÃ§Ã£o inexistente!\n");
         return ERRO;
     }
 
-    /* Percorre a lista procurando pelo elemento na posição informada */
-    atual = lista->inicio; 
-    for(i = 0; i < posicao; i++)
-        atual = atual->prox;
+    /* Percorre a lista procurando pelo elemento na posiÃ§Ã£o informada */
+    atual = lista->inicio;
+    countRemSaltos++;
 
-    /* Atualiza os ponteiros de acordo com o caso específico (início, fim ou meio) */
+    for(i = 0; i < posicao; i++)
+        atual = atual->prox;countRemSaltos++;
+
+
+    /* Atualiza os ponteiros de acordo com o caso especÃ­fico (inÃ­cio, fim ou meio) */
     if(posicao == 0){
         lista->inicio = atual->prox;
         lista->inicio->ant = NULL;
+        countRemSaltos++;
+        countRemSaltos++;
+        countRemSaltos++;
+        countRemSaltos++;
     }else if(posicao == lista->quantidade_nos - 1){
         lista->fim = atual->ant;
         lista->fim->prox = NULL;
+        countRemSaltos++;
+        countRemSaltos++;
+        countRemSaltos++;
+        countRemSaltos++;
     }else{
         noLdde * aux = atual->prox;
         atual->ant->prox = aux;
         atual->prox->ant = atual->ant;
+        countRemSaltos++;
+        countRemSaltos++;
+        countRemSaltos++;
+        countRemSaltos++;
+        countRemSaltos++;
+        countRemSaltos++;
     }
 
     free(atual->dados);
     free(atual);
-    
+
     lista->quantidade_nos--;
     return SUCESSO;
 }

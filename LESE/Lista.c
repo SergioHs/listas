@@ -2,6 +2,20 @@
 #include <stdlib.h>
 #include "Lista_privado.h"
 
+// Análise de Saltos
+// Grupo E
+int countInsSaltos = 0;
+
+int getInsSaltos(){
+    return countInsSaltos;
+}
+
+int countRemSaltos = 0;
+
+int getRemSaltos(){
+    return countRemSaltos;
+}
+
 int i = 0;
 
 // FUNCOES PARA ADICIONAR ELEMENTOS A LISTA
@@ -28,6 +42,7 @@ void InserirInicio (struct Lista * lista, void * elemento, int * resultado)
     // Inicializa o no temporario com os dados fornecidos
     novo_no->dados = elemento;
     novo_no->prox = NULL;       // Como esse e o fim da lista, o prox = NULL
+    countInsSaltos++;
 
     // Apos a criacao do no temporario, adiciona ele ao fim da lista
     if (lista->inicio == NULL){                 // Se a lista esta vazia, deve ser inicializada
@@ -36,15 +51,24 @@ void InserirInicio (struct Lista * lista, void * elemento, int * resultado)
         lista->fim->prox = NULL;                // Garante que o fim da lista acaba no fim
         lista->tamanho_atual = lista->tamanho_atual + 1;
         *resultado = SUCESSO;
+        countInsSaltos++;
+        countInsSaltos++;
+        countInsSaltos++;
+        countInsSaltos++;
+        countInsSaltos++;
+        countInsSaltos++;
         return;
     } else {
         no_t * primeiro_no = lista->inicio; // no temporario com o primeiro elemento
         novo_no->prox = primeiro_no;        // coloca o inicio atual da lista no prox do novo no
         lista->inicio = novo_no;            // aponta o inicio da lista para o novo no
         lista->tamanho_atual = lista->tamanho_atual + 1;
+        countInsSaltos++;
+        countInsSaltos++;
+        countInsSaltos++;
         *resultado = SUCESSO;
         return;
-    } 
+    }
 
     // Se esse ponto foi atingido, resultado continua = FRACASSO.
     return;
@@ -88,7 +112,7 @@ void InserirFim (struct Lista * lista, void * elemento, int * resultado)
         lista->tamanho_atual = lista->tamanho_atual + 1;
         *resultado = SUCESSO;
         return;
-    } 
+    }
 
     // Se esse ponto foi atingido, resultado continua = FRACASSO.
     return;
@@ -96,7 +120,7 @@ void InserirFim (struct Lista * lista, void * elemento, int * resultado)
 
 void InserirPos (struct Lista * lista, void * elemento, int Pos, int * resultado)
 {
-    
+
     *resultado = FRACASSO;   // Inicializa o resultado como FRACASSO
     void * Dado;
 
@@ -129,7 +153,7 @@ void InserirPos (struct Lista * lista, void * elemento, int Pos, int * resultado
         // Procura pela posicao desejada, a partir da 1a.
         for (i=0; i<Pos; i++){
             if (no_atual->prox != 0){
-                novo_no = no_atual;  
+                novo_no = no_atual;
                 no_atual = novo_no->prox;     //Desloca um no na lista
             } else { // Se a posicao desejada e maior que numero de elementos na lista, adiciona ao fim da lista
                 novo_no->dados = elemento;    // Adiciona o dado ao novo_no
@@ -183,27 +207,39 @@ void * RemoverInicio(struct Lista * lista, int * resultado)
     // Armazena a informacao do elemento a ser removido para retorna-la
     void * elem_removido;
     elem_removido = lista->inicio->dados;
+    countRemSaltos++;
+    countRemSaltos++;
 
-    
     // Remove o ultimo elemento da lista
     no_t * segundo_no;
     segundo_no = lista->inicio;
-    // Encontra o segundo elemento da lista para desloca-lo. 
+    countRemSaltos++;
+
+    // Encontra o segundo elemento da lista para desloca-lo.
     // Isso nao era necessario, mas e interessante para garantir
     while (lista->inicio->prox != segundo_no)  // Procura ate encontrar qual no aponta para o ultimo da lista
     {
         segundo_no = segundo_no->prox;    // Desloca um no na lista
+        countRemSaltos++;
+        countRemSaltos++;
+        countRemSaltos++;
     }
     // Verifica se foi encontrado
     if (lista->inicio->prox == segundo_no){
         lista->inicio = segundo_no;      // Iguala o inicio da lista ao segundo no
+        countRemSaltos++;
+        countRemSaltos++;
+        countRemSaltos++;
 
         // Verifica se a lista ficou vazia
         if (lista->inicio == 0){
             lista->inicio = NULL;       // Anula o primeiro elemento da lista
             lista->fim = NULL;          // Também anula o ultimo elemento da lista
+            countRemSaltos++;
+            countRemSaltos++;
         }
         lista->tamanho_atual = lista->tamanho_atual - 1;
+        countRemSaltos++;
         *resultado = SUCESSO;
         return elem_removido;
     }
@@ -226,7 +262,7 @@ void * RemoverFim(struct Lista * lista, int * resultado)
     void * elem_removido;
     elem_removido = lista->fim->dados;
 
-    
+
     // Remove o ultimo elemento da lista
     no_t * penultimo_no;
     penultimo_no = lista->inicio;
@@ -236,7 +272,7 @@ void * RemoverFim(struct Lista * lista, int * resultado)
         {
             penultimo_no = penultimo_no->prox;    // Desloca um no na lista
         }
-    } else {  // A lista tem somente um elemento    
+    } else {  // A lista tem somente um elemento
         lista->fim = NULL;          // Anula o ultimo elemento
         lista->inicio = NULL;       // Tambem anula o primeiro elemento da lista
         lista->tamanho_atual = lista->tamanho_atual - 1;
@@ -297,7 +333,7 @@ void * RemoverPos(struct Lista * lista, int Pos, int * resultado)
         *resultado = SUCESSO;
         return Dado;
     }
-    
+
     // Se foi atingido, nao foi feito nada
     *resultado = FRACASSO;
     return NULL;
@@ -309,14 +345,14 @@ void * BuscarInicio(struct Lista * lista, int * resultado)
 {
     *resultado = FRACASSO;  // Inicializa resultado como FRACASSO
     void * Dado;
-    
+
     // Caso a lista esteja vazia. Nao deve ocorrer porque sempre e criada
     // inicializando o tamanho dos dados
     if (lista == NULL) { return NULL; }
-    
+
 
     // Se a lista esta vazia, nao faz nada
-    if (lista->inicio == NULL){ return NULL; } 
+    if (lista->inicio == NULL){ return NULL; }
     else {
         Dado = lista->inicio->dados; // Armazena a informacao que esta no fim da lista
         *resultado = SUCESSO;
@@ -332,14 +368,14 @@ void * BuscarFim(struct Lista * lista, int * resultado)
 {
     *resultado = FRACASSO;  // Inicializa resultado como FRACASSO
     void * Dado;
-    
+
     // Caso a lista esteja vazia. Nao deve ocorrer porque sempre e criada
     // inicializando o tamanho dos dados
     if (lista == NULL) { return NULL; }
-    
+
 
     // Se a lista esta vazia, nao faz nada
-    if (lista->fim == NULL){ return NULL; } 
+    if (lista->fim == NULL){ return NULL; }
     else {
         Dado = lista->fim->dados; // Armazena a informacao que esta no fim da lista
         *resultado = SUCESSO;
@@ -355,7 +391,7 @@ void * BuscarPos(struct Lista * lista, int Pos, int * resultado)
     *resultado = FRACASSO;  // Inicializa o resultado como FRACASSO
 
     void * Dado;
-    
+
     // Caso a lista esteja vazia. Nao deve ocorrer porque sempre e criada
     // inicializando o tamanho dos dados
     if (lista == NULL) { return NULL; }
@@ -365,7 +401,7 @@ void * BuscarPos(struct Lista * lista, int Pos, int * resultado)
     }
 
     // Se a lista esta vazia, nao faz nada
-    if (lista->inicio == NULL){ return NULL; } 
+    if (lista->inicio == NULL){ return NULL; }
     else {
 
         no_t * no_atual = lista->inicio;  // Inicializa o no_atual como inicio
@@ -377,7 +413,7 @@ void * BuscarPos(struct Lista * lista, int Pos, int * resultado)
             return Dado;
         }
         // Procura pela posicao desejada, a partir da 1a.
-        for (i=0; i<Pos; i++){  
+        for (i=0; i<Pos; i++){
             if (no_atual->prox != 0){
                 no_atual = no_atual->prox;  // Desloca um no na lista
             } else { // Se a posicao desejada e maior que numero de elementos na lista
@@ -394,7 +430,7 @@ void * BuscarPos(struct Lista * lista, int Pos, int * resultado)
 
     // Se esse ponto foi atingido, nada foi feito
     return NULL;
-    
+
 }
 
 // FUNCOES PARA CRIACAO, REINICIALIZACAO E DESTRUICAO DA LISTA
@@ -403,7 +439,7 @@ struct Lista * CriarLista (int tamanho_dados, int tamanho_maximo, int * resultad
 {
     lista_t * lista;
     lista = (lista_t*) malloc(sizeof(lista_t));
-    
+
     // Em caso de falha no malloc
     if (lista == NULL)
     {
@@ -466,4 +502,3 @@ void DestruirLista (struct Lista * lista, int * resultado)
     printf("\nA lista foi destruida\n\n");
     *resultado = SUCESSO;
 }
-
