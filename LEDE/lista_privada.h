@@ -70,6 +70,6 @@ void removerUltimoElem(lLista l, int pos);
 void mostrarElemento( Elemento * el, int posicao , int posicaoOcupada);
 
 // printa todos os elementos da lista
-void printElementosLista(lLista l);
+void printElementosLista(lLista ll);
 
 #endif
