@@ -75,5 +75,6 @@ void *buscarPos(lLista l, int posicao);
 // l -> lista de dados
 // printa a lista para o tipo inteiro
 void mostrarListaInt(lLista l);
+int envia_countador(lLista l);
 
 #endif
