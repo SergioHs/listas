@@ -1,46 +1,26 @@
 #include <stdio.h>
+
 #include "Lista_publica.h"
 
 int main() {
-    int resultado;
-    char elemento1[] = {'a', 'b', 'c', '\0'};
-    char *retorno;
+  int resultado;
+  
 
-    pLista lista = criar_lista(4, &resultado);
-    inserir_inicio(lista, elemento1, 4*sizeof(char), &resultado);
-    printf("resultado: %i\n", resultado);
-    retorno = buscar_inicio(lista, &resultado);
-    printf("resultado: %i\n", resultado);
-    printf("retorno: %s\n", (char *)retorno);
+  pLista lista = criar_lista(sizeof(int), &resultado);
+  
+  int r = 0;
+  int valor = 3;
+  for (int i = 0; i < 10000; i++) {
+    inserir_inicio(lista, &valor, sizeof(int), &r);
+  } 
+  printf("Pulos inserindo 10000 no início: %d\n", envia_countador());
 
-    char elemento2[] = {'c', 'd', 'e', '\0'};
-    inserir_fim(lista, elemento2, 4*sizeof(char), &resultado);
-    printf("resultado: %i\n", resultado);
-    retorno = buscar_fim(lista, &resultado);
-    printf("resultado: %i\n", resultado);
-    printf("retorno: %s\n", (char *)retorno);
+  int primeirospulos = envia_countador();
+  int *rem = malloc(sizeof(int));
+  for (int i = 0; i < 3000; i++) {
+    remover_inicio(lista, rem);
+  }
+  printf("Pulos removendo 3000 do início: %d\n", envia_countador()-primeirospulos);
 
-    int elemento3 = 15;
-    inserir_pos(lista, 2, &elemento3, sizeof(int), &resultado);
-    printf("resultado: %i\n", resultado);
-    retorno = buscar_pos(lista, 2, &resultado);
-    printf("resultado: %i\n", resultado);
-    printf("retorno: %i\n", *(int *)retorno);
-
-    remover_pos(lista, 2, &resultado);
-    printf("resultado: %i\n", resultado);
-    retorno = buscar_pos(lista, 2, &resultado);
-    printf("resultado: %i\n", resultado);
-    printf("retorno: %i\n", (int *)retorno);
-
-    reiniciar_lista(lista, &resultado);
-    printf("resultado: %i\n", resultado);
-    retorno = buscar_fim(lista, &resultado);
-    printf("resultado: %i\n", resultado);
-    printf("retorno: %s\n", (char *)retorno);
-
-    destruir_lista(lista, &resultado);
-    printf("resultado: %i\n", resultado);
-
-    return 0;
+  return 0;
 }
