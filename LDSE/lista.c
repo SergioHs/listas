@@ -3,7 +3,18 @@
 #include <string.h>
 #include "lista_privado.h"
 
-int count = 0;
+int countInsSaltos = 0;
+
+int getInsSaltos(){
+    return countInsSaltos;
+}
+
+int countRemSaltos = 0;
+
+int getRemSaltos(){
+    return countRemSaltos;
+}
+
 
 descritor *criarLista(int tamanho_dados, int *resultado)
 {
@@ -34,7 +45,7 @@ noLista *criarNo(descritor *lista, void *elemento)
     no->dados = elemento;
     no->prox = NULL;
 
-    count++;
+    countInsSaltos = countInsSaltos + 2;
 
     return no;
 }
@@ -51,8 +62,10 @@ void inserirInicio(pLista lista, void *elemento, void *valorInserido, int *resul
     }
     else
     {
-        if (listaVazia(lista)) // se a lista estiver vazia insere
+        if (listaVazia(lista)){
             lista->inicio = no;
+        } // se a lista estiver vazia insere
+            
         else // se já existir elementos na lista
         {
             no->prox = lista->inicio; //novo nó recebe como próximo o primeiro elemento
@@ -64,7 +77,7 @@ void inserirInicio(pLista lista, void *elemento, void *valorInserido, int *resul
 
         //retorna no parâmetro valor inserido
         memcpy(valorInserido, no->dados, lista->tamanho_dados);
-        printf("\nElemento inserido no inicio da fila!\n");
+       // printf("\nElemento inserido no inicio da fila!\n");
     }
 }
 
@@ -172,18 +185,28 @@ void removerInicio(pLista lista, void *valorRemovido, int *resultado)
     else
     {
         noAux = lista->inicio;
+        countRemSaltos++;
+        countRemSaltos++;
         memcpy(valorRemovido, noAux->dados, lista->tamanho_dados);
 
         // se haver apenas um elemento este é "limpado"
-        if (noAux->prox == NULL)
+        if (noAux->prox == NULL){
+
             lista->inicio = NULL;
-        else
+            countRemSaltos++;
+            countRemSaltos++;
+        }
+        else {
+
             lista->inicio = noAux->prox; // se houver mais de um elemento na lista, a segunda posicao passa a ser a primeira e assim consecutivamente.
+            countRemSaltos++;
+            countRemSaltos++;
+        }
 
         free(noAux);
         lista->qtdeNos--;
         *resultado = SUCESSO;
-        printf("\nElemento do inicio da fila removido!\n");
+        //printf("\nElemento do inicio da fila removido!\n");
     }
 }
 
@@ -271,9 +294,7 @@ int listaVazia(pLista lista)
     
     if (lista == NULL)
         return 1;
-    
-    count++;
-    
+        
     if (lista->inicio == NULL)
         return 1;
     else

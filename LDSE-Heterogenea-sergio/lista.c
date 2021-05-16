@@ -9,13 +9,27 @@
 #define SUCESSO 1
 #define FRACASSO 0
 
+int countInsSaltos = 0;
+
+int getInsSaltos(){
+    return countInsSaltos;
+}
+
+int countRemSaltos = 0;
+
+int getRemSaltos(){
+    return countRemSaltos;
+}
+
+
 int listaCriar(Lista** lista) {
     if (lista == NULL) return FRACASSO;
     
     *lista = (Lista*) malloc(sizeof(Lista));
     (*lista)->inicio = NULL;
     (*lista)->fim = NULL;
-
+    countInsSaltos++;
+    countInsSaltos++;
     return SUCESSO;
 }
 
@@ -63,24 +77,33 @@ int listaInserirPos(Lista* lista, int pos, int tamanho_dados, void* dados) {
     ListaNo* no_anterior = NULL;
     ListaNo* no_atual = lista->inicio;
     int pos_atual = 0;
+    countInsSaltos = countInsSaltos++;
     while (pos_atual < pos) {
         pos_atual++;
         no_anterior = no_atual;
         no_atual = no_atual->proximo;
+        countInsSaltos = countInsSaltos + 3;
     }
 
     if (no_anterior == NULL) {
         lista->inicio = novo_no;
+        countInsSaltos++;
     } else {
         no_anterior->proximo = novo_no;
+        countInsSaltos++;
+        countInsSaltos++;
     }
     novo_no->proximo = no_atual;
+    countInsSaltos++;
     if (no_atual == NULL) {
         lista->fim = novo_no;
+        countInsSaltos++;
+        countInsSaltos++;
     }
 
-
     lista->tamanho++;
+
+    countInsSaltos++;
 
     return SUCESSO;
 }
@@ -99,16 +122,20 @@ int listaRemoverPos(Lista* lista, int pos, void* dados) {
     ListaNo* no_anterior = NULL;
     ListaNo* no_atual = lista->inicio;
     int pos_atual = 0;
+        countRemSaltos++;
     while (pos_atual < pos) {
         pos_atual++;
         no_anterior = no_atual;
         no_atual = no_atual->proximo;
+        countRemSaltos++;
     }
 
     if (no_anterior == NULL) {
         lista->inicio = no_atual->proximo;
+        countRemSaltos++;
     } else {
         no_anterior->proximo = no_atual->proximo;
+        countRemSaltos++;
     }
 
     memcpy(dados, no_atual->dados, no_atual->tamanho_dados);
@@ -143,6 +170,8 @@ int listaBuscarPos(Lista* lista, int pos, void* dados) {
 
 int listaTamanho(Lista* lista) {
     return lista == NULL ? 0 : lista->tamanho;
+    countInsSaltos++;
+    
 }
 
 int listaVazia(Lista* lista) {

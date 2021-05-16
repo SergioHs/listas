@@ -20,17 +20,18 @@ int main(void)
 
     int i;
 
-    for(i=0; i<10000; i++){
-        
-        valor = i;
-        
+    for (i=0;i<10000;i++){
+        int valor = i;
         inserirInicio(lista, &valor, valorInserido, &resultado);
+    }
 
-        printf("Valor inserido: %d \n", *valorInserido);  
-        int pulos = getCount();  
-        printf("Indice: %d \n\n", i);
+    printf("\nInserir - Quantidade de Saltos: %d",getInsSaltos());
 
-    } 
+    for (i=0;i<3000;i++){
+        removerInicio(lista, valorRemovido, &resultado2);
+    }
+
+    printf("\nRemover - Quantidade de Saltos: %d \n",getRemSaltos());
 
     // insercao
     // int valor = 1;
